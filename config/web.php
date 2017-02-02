@@ -18,7 +18,18 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'idParam'           => '_mId',
+            'identityCookie'    => ['name'=>'_ff','httpOnly' => true],
         ],
+        'adminUser' => array(   // Webuser for the admin area (admin)
+            'class'             => '\yii\web\User',
+            'identityClass'     => 'app\modules\admin\models\AdminUser',
+            'idParam'           => '_aId',
+            'identityCookie'    => ['name'=>'_aa','httpOnly' => true],
+            'loginUrl'          => ['/admin/admin/login'],
+            'enableAutoLogin'   => true,//不使用cookie
+           //authTimeout'     =>100
+        ),
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -38,6 +49,13 @@ $config = [
                 ],
             ],
         ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+                ],
+            ],
+        ],
         'db' => require(__DIR__ . '/db.php'),
         /*
         'urlManager' => [
@@ -51,6 +69,7 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\AdminModule',
+            'layout' => "main_admin"
         ],
     ],
     'params' => $params,
@@ -68,5 +87,4 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
     ];
 }
-
 return $config;

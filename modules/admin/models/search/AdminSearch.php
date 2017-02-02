@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\admin\models\AdminUser;
+use yii\helpers\ArrayHelper;
 
 /**
  * AdminSearch represents the model behind the search form about `app\modules\admin\models\AdminUser`.
@@ -41,12 +42,14 @@ class AdminSearch extends AdminUser
      */
     public function search($params)
     {
+
         $query = AdminUser::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['admin_id']],
+            //'pagination' => ['pageSize' => 1],
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {
